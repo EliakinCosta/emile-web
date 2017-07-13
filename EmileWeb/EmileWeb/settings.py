@@ -84,15 +84,10 @@ WSGI_APPLICATION = 'EmileWeb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'clubangelsalvado$default',
         'NAME': 'emileweb$dbemileweb',
-        #'USER': 'clubangelsalvado',
         'USER': 'emileweb',
-        #'PASSWORD': '1q2w3e4r5t',
         'PASSWORD': 'emile@#2017',
-        #'HOST': 'clubangelsalvador.mysql.pythonanywhere-services.com',
         'HOST': 'emileweb.mysql.pythonanywhere-services.com',
-        #'HOST': 'localhost',
         'PORT': '',
     }
 }
