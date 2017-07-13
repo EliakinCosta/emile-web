@@ -8,4 +8,5 @@ app_name = 'administracao'
 
 urlpatterns = [
     url(r'^home/$', views.home, name='home'),
+    url(r'^wall_messages_list/$', views.wall_messages_list, name='wall_messages_list'),
 ]
