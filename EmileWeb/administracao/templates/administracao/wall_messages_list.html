@@ -1,7 +1,15 @@
 {% extends 'administracao/base.html' %}
 {% load csstags %}
 {% block content %}
-
+{% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %} alert-dismissable">
+          <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+              {{ message }}
+          <a class="alert-link" href="#"></a>.
+      </div>
+     {% endfor %}
+   {% endif %}
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-clock-o fa-fw"></i> Mural de mensagens

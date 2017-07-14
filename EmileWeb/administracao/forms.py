@@ -7,10 +7,10 @@ def get_institutions():
 
 
 class MessageForm(forms.ModelForm):
-    institution = forms.ChoiceField(choices=get_institutions(), label='Institução')
-    program = forms.ChoiceField(choices=[], label='Curso')
-    course_section = forms.ChoiceField(choices=[], label='Turma')
-    message = forms.CharField(required=True, label='Mensagem', max_length=250, widget=forms.Textarea)
+    # institution = forms.ChoiceField(choices=get_institutions(), label='Institução', required=False)
+    # program = forms.ChoiceField(label='Curso',required=False)
+    # course_section = forms.ChoiceField(choices=[], label='Turma', required=False)
+    # message = forms.CharField(required=True, label='Mensagem', max_length=250, widget=forms.Textarea)
 
 
     class Meta:

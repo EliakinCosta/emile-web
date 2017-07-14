@@ -4,4 +4,4 @@ from django.db import models
 
 class MessageFile(models.Model):
     message_file = models.FileField(upload_to='wall_messages_files/')
-    message_id = models.IntegerField(unique=True)
+    message_id = models.IntegerField(unique=True, blank=True, null=True)

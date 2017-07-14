@@ -6,6 +6,8 @@ from django.views import View
 from django.core.urlresolvers import reverse_lazy
 import json
 from  django.http import JsonResponse
+from django.contrib import messages
+from django.shortcuts import redirect
 
 
 @login_required
@@ -48,4 +50,14 @@ class WallMessageCreateView(View):
 
     def get(self, request):
         form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, { 'form' : form})
+
+    def post(self, request):
+        form = self.form_class(request.POST, request.FILES)
+        print(request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, "Mensagem enviada com sucesso!")
+            return redirect('administracao:wall_messages_list')
+
         return render(request, self.template_name, { 'form' : form})
