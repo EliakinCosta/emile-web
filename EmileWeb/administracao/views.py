@@ -5,6 +5,7 @@ from administracao import forms
 from django.views import View
 from django.core.urlresolvers import reverse_lazy
 import json
+from  django.http import JsonResponse
 
 
 @login_required
@@ -22,13 +23,13 @@ def wall_messages_list(request):
     return render(request, 'administracao/wall_messages_list.html', {})
 
 
-def institutions_programs(request, institutions_id):
-    response = requests.get('http://emile-server.herokuapp.com/institutions_programs/{0}'.format(institutions_id))
+def institutions_programs(request, pk):
+    response = requests.get('http://emile-server.herokuapp.com/programs')
 
     if response.status_code == 200:
-        _json = response.json()
-        return HttpResponse(json.dumps(_json, ensure_ascii=False), mimetype="application/json")
-    return HttpResponse(json.dumps({}, ensure_ascii=False), mimetype="application/json")
+        _json = response.json()        
+        return JsonResponse(dict(_json))
+    return JsonResponse({})
 
 
 class WallMessageCreateView(View):

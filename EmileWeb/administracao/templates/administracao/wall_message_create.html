@@ -19,23 +19,21 @@
        <button type="submit" class="btn btn-lg btn-info">Enviar</button>
    </form>
 </div>
+
+
 {% endblock %}
 
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript">
-    $( document ).ready(function() {
-        console.log( "ready!" );
-    });
     $('#id_institution').change(function(){
-        console.log('teste');
-        url = "{% url 'administracao:institutions_programs' 0 %}".replace(0, this.id);
+        url = "{% url 'administracao:institutions_programs' 0 %}".replace(0, this.value);
         $.ajax({
             url: url,
             type: "GET",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+                console.log(data.abbreviation);
             }
         });
     });
