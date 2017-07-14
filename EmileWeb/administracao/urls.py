@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^home/$', views.home, name='home'),
     url(r'^wall_messages_list/$', views.wall_messages_list, name='wall_messages_list'),
     url(r'^login/$', auth_views.login, {'template_name': 'administracao/login.html'}, name='login'),
-    url(r'^logout/$', auth_views.logout, {'template_name': 'administracao/logout.html'}, name='logout'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
 ]
