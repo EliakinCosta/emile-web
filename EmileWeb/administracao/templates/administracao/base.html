@@ -62,7 +62,7 @@
                         <a href="{% url 'administracao:wall_messages_list' %}"><i class="fa fa-dashboard fa-fw"></i> Mural de Mensagens</a>
                      </li>
                      <li>
-                        <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                        <a href="{% url 'administracao:wall_message_create' %}"><i class="fa fa-edit fa-fw"></i> Enviar Mensagem</a>
                       </li>
                   </ul>
                </div>
@@ -71,15 +71,12 @@
             <!-- /.navbar-static-side -->
          </nav>
          <div id="page-wrapper">
-            <div class="row">
-               <div class="col-lg-12">
-                  <h1 class="page-header">Dashboard</h1>
-               </div>
-               <!-- /.col-lg-12 -->
-            </div>
             <!-- /.row -->
             <div class="row">
                {% block content %}
+               <div class="col-lg-12">
+                  <h1 class="page-header">Dashboard</h1>
+               </div>
                {% endblock %}
             </div>
          </div>
