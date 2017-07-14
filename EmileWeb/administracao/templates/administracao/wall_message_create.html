@@ -25,6 +25,7 @@
 
 {% block scripts %}
 {{ block.super }}
+<script src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript">
     $('#id_institution').change(function(){
         url = "{% url 'administracao:institutions_programs' 0 %}".replace(0, this.value);
@@ -33,7 +34,31 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-                console.log(data.abbreviation);
+                helpers.buildDropdown(
+                      data.programs,
+                      $('#id_program'),
+                      'Selecione o Curso',
+                      'id',
+                      'abbreviation'
+                  );
+            }
+        });
+    });
+
+    $('#id_program').change(function(){
+        url = "{% url 'administracao:programs_course_sections' 0 %}".replace(0, this.value);
+        $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                helpers.buildDropdown(
+                      data.programs_course_sections,
+                      $('#id_course_section'),
+                        'Selecione a Turma',
+                        'id',
+                        'description'
+                  );
             }
         });
     });

@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^wall_message_create/$', views.WallMessageCreateView.as_view(), name='wall_message_create'),
     url(r'^institutions_programs/(?P<pk>\d+)$', views.institutions_programs, name='institutions_programs'),
+    url(r'^programs_course_sections/(?P<pk>\d+)$', views.programs_course_sections, name='programs_course_sections'),
 ]

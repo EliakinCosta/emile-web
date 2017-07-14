@@ -27,10 +27,18 @@ def institutions_programs(request, pk):
     response = requests.get('http://emile-server.herokuapp.com/programs')
 
     if response.status_code == 200:
-        _json = response.json()        
+        _json = response.json()
         return JsonResponse(dict(_json))
     return JsonResponse({})
 
+def programs_course_sections(request, pk):
+    response = requests.get('http://emile-server.herokuapp.com/programs_course_sections/{0}'.format(pk))
+    print("result",response.status_code)
+    if response.status_code == 200:
+        _json = response.json()
+        print(dict(_json))
+        return JsonResponse(dict(_json))
+    return JsonResponse({})
 
 class WallMessageCreateView(View):
     template_name = 'administracao/wall_message_create.html'
