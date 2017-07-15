@@ -54,7 +54,6 @@ class WallMessageCreateView(View):
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
-        print(request.FILES)
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, "Mensagem enviada com sucesso!")
