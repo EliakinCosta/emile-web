@@ -27,23 +27,27 @@
 {{ block.super }}
 <script src="{% static 'js/utils.js' %}"></script>
 <script type="text/javascript">
-    $('#id_institution').change(function(){
-        url = "{% url 'administracao:institutions_programs' 0 %}".replace(0, this.value);
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: "json",
-            success: function (data) {
-                helpers.buildDropdown(
-                      data.programs,
-                      $('#id_program'),
-                      'Selecione o Curso',
-                      'id',
-                      'abbreviation'
-                  );
-            }
-        });
-    });
+  $( document ).ready(function() {
+
+    load_destinations_by_user_type = function() {
+      var user_type = {{ request.user.userprofile.user_type }}
+      console.log(user_type);
+      url = "{% url 'administracao:destinations_by_user_type' 0 %}".replace(0, user_type);
+      $.ajax({
+          url: url,
+          type: "GET",
+          dataType: "json",
+          success: function (data) {
+              helpers.buildDropdown(
+                    data.destinations_by_user_type,
+                    $('#id_user_type_destination'),
+                    'Selecione o Destino',
+                    'id',
+                    'name'
+                );
+          }
+      });
+    }
 
     $('#id_program').change(function(){
         url = "{% url 'administracao:programs_course_sections' 0 %}".replace(0, this.value);
@@ -62,5 +66,11 @@
             }
         });
     });
+
+    load_destinations_by_user_type()
+
+  });
+
+
 </script>
 {% endblock %}
