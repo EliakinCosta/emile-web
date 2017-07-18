@@ -26,19 +26,17 @@ def wall_messages_list(request):
 
 
 def destinations_by_user_type(request, pk):
-    response = requests.get('http://emile-server.herokuapp.com/destinations_by_user_type/{0}'.format(pk))
+    response = requests.get('http://127.0.0.1:5000/destinations_by_user_type/{0}'.format(pk))
 
     if response.status_code == 200:
         _json = response.json()
         return JsonResponse(dict(_json))
     return JsonResponse({})
 
-def programs_course_sections(request, pk):
-    response = requests.get('http://emile-server.herokuapp.com/programs_course_sections/{0}'.format(pk))
-    print("result",response.status_code)
-    if response.status_code == 200:
-        _json = response.json()
-        return JsonResponse(dict(_json))
+def param_values_service(request):
+    if request.method == 'POST':
+        print(request.POST.dict())
+        return JsonResponse({})
     return JsonResponse({})
 
 class WallMessageCreateView(View):
