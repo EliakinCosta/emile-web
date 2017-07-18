@@ -29,41 +29,46 @@
 <script type="text/javascript">
   $( document ).ready(function() {
 
+    var destination_data = {}
+
+
     load_destinations_by_user_type = function() {
       var user_type = {{ request.user.userprofile.user_type }}
-      console.log(user_type);
       url = "{% url 'administracao:destinations_by_user_type' 0 %}".replace(0, user_type);
       $.ajax({
           url: url,
           type: "GET",
           dataType: "json",
           success: function (data) {
+              destination_data = data
               helpers.buildDropdown(
                     data.destinations_by_user_type,
                     $('#id_user_type_destination'),
                     'Selecione o Destino',
                     'id',
                     'name'
-                );
+              );
           }
       });
     }
 
-    $('#id_program').change(function(){
-        url = "{% url 'administracao:programs_course_sections' 0 %}".replace(0, this.value);
-        $.ajax({
-            url: url,
-            type: "GET",
-            dataType: "json",
-            success: function (data) {
-                helpers.buildDropdown(
-                      data.programs_course_sections,
-                      $('#id_course_section'),
-                        'Selecione a Turma',
-                        'id',
-                        'description'
-                  );
-            }
+    $('#id_user_type_destination').change(function(){
+        console.log("change");
+
+        helpers.findTypeDestination(destination_data.destinations_by_user_type, this.value, function(obj){
+          url = "{% url 'administracao:param_values_service' %}"
+          $.ajax({
+              url: url,
+              type: "POST",
+              data:{
+                  destination_data: JSON.stringify(obj),
+                  csrfmiddlewaretoken:'{{ csrf_token }}'
+              },
+              dataType: "json",
+              success: function (data) {
+                  console.log(data);
+              }
+          });
         });
     });
 
