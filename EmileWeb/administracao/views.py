@@ -8,6 +8,7 @@ import json
 from  django.http import JsonResponse
 from django.contrib import messages
 from django.shortcuts import redirect
+import json
 
 
 @login_required
@@ -35,7 +36,13 @@ def destinations_by_user_type(request, pk):
 
 def param_values_service(request):
     if request.method == 'POST':
-        print(request.POST.dict())
+        destination_data_dict = request.POST.get('destination_data')
+        teste = json.loads(destination_data_dict)
+        url = 'http://127.0.0.1:5000{0}'.format(teste.get('param_values_service'))        
+        response = requests.get(url.replace('$', '5'))
+        if response.status_code == 200:
+            _json = response.json()
+            return JsonResponse(dict(_json))
         return JsonResponse({})
     return JsonResponse({})
 
