@@ -17,5 +17,15 @@ var helpers =
                 dropdown.append('<option value="' + v[key] + '">' + v[value] + '</option>');
             });
         }
+    },
+    findTypeDestination: function(dataList, id, callback)
+    {
+      $.each( dataList, function( index, value ){
+        if (value.id == id)
+        {
+          callback(value);
+        }
+      });
     }
+
 }
