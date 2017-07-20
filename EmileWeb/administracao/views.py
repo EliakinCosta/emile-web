@@ -36,6 +36,7 @@ def response_to_dict(url):
     return {}
 
 
+
 def param_values_service(request):
     if request.method == 'POST':
         url_user = '{0}/{1}/{2}'.format(settings.BASE_URL,'user_details', request.user.email)
@@ -54,6 +55,7 @@ def param_values_service(request):
         return JsonResponse({'result': "invalid user email"})
     return JsonResponse({})
 
+
 class WallMessageCreateView(View):
     template_name = 'administracao/wall_message_create.html'
     success_url = reverse_lazy('administracao:wall_messages_list')
@@ -66,6 +68,7 @@ class WallMessageCreateView(View):
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
+        print(form)
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, "Mensagem enviada com sucesso!")

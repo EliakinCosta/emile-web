@@ -10,6 +10,8 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>Emile Web</title>
+
+      {{ form.media.css }}
       <!-- Bootstrap Core CSS -->
       <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
       <!-- MetisMenu CSS -->
@@ -96,6 +98,8 @@
       <script src="{% static 'data/morris-data.js' %}"></script> -->
       <!-- Custom Theme JavaScript -->
       <script src="{% static 'js/sb-admin-2.js' %}"></script>
+      <script src="{% static 'dist/js/select2.full.js' %}"></script>
+      {{ form.media.js }}
       {% endblock %}
    </body>
 </html>

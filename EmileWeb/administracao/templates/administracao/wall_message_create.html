@@ -53,8 +53,6 @@
     }
 
     $('#id_user_type_destination').change(function(){
-        console.log("change");
-
         helpers.findTypeDestination(destination_data.destinations_by_user_type, this.value, function(obj){
           url = "{% url 'administracao:param_values_service' %}"
           $.ajax({
@@ -66,7 +64,14 @@
               },
               dataType: "json",
               success: function (data) {
-                  console.log(data);
+                console.log(data);
+                helpers.buildDropdown(
+                      data.teachers_course_sections,
+                      $('#id_course_section'),
+                      'Selecione o Curso',
+                      'id',
+                      'code'
+                );
               }
           });
         });
