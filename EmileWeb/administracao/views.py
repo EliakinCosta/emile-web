@@ -9,6 +9,7 @@ from  django.http import JsonResponse
 from django.contrib import messages
 from django.shortcuts import redirect
 import json
+from django.conf import settings
 
 
 @login_required
@@ -18,7 +19,7 @@ def home(request):
 
 @login_required
 def wall_messages_list(request):
-    response = requests.get('http://emile-server.herokuapp.com/wall_messages/{0}'.format(request.user.email))
+    response = requests.get('{0}/wall_messages/{1}'.format(settings.BASE_URL,request.user.email))
 
     if response.status_code == 200:
         _json = response.json()
@@ -27,7 +28,7 @@ def wall_messages_list(request):
 
 
 def destinations_by_user_type(request, pk):
-    response = requests.get('http://127.0.0.1:5000/destinations_by_user_type/{0}'.format(pk))
+    response = requests.get('{0}/destinations_by_user_type/{1}'.format(settings.BASE_URL, pk))
 
     if response.status_code == 200:
         _json = response.json()
@@ -36,14 +37,14 @@ def destinations_by_user_type(request, pk):
 
 def param_values_service(request):
     if request.method == 'POST':
-        response_user = requests.get('http://127.0.0.1:5000/{0}/{1}'.format('user_details', request.user.email))
+        response_user = requests.get('{0}/{1}/{2}'.format(settings.BASE_URL,'user_details', request.user.email))
         if response_user.status_code == 200:
             user = dict(response_user.json()).get('user')
 
         if user:
             destination_data_dict = request.POST.get('destination_data')
             param_values_service = json.loads(destination_data_dict)['param_values_service']
-            url = 'http://127.0.0.1:5000{0}'.format(param_values_service)
+            url = '{0}{1}'.format(settings.BASE_URL, param_values_service)
 
             if param_values_service == '<%users%>':
                 return JsonResponse({})
