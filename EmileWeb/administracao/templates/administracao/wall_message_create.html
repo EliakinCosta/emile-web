@@ -66,7 +66,13 @@
               },
               dataType: "json",
               success: function (data) {
-                  console.log(data);
+                helpers.buildDropdown(
+                      data.teachers_course_sections,
+                      $('#id_course_section'),
+                      'Selecione o Curso',
+                      'id',
+                      'code'
+                );
               }
           });
         });
