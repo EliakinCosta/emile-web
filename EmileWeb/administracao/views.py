@@ -19,27 +19,27 @@ def home(request):
 
 @login_required
 def wall_messages_list(request):
-    response = requests.get('{0}/wall_messages/{1}'.format(settings.BASE_URL,request.user.email))
-
-    if response.status_code == 200:
-        _json = response.json()
-        return render(request, 'administracao/wall_messages_list.html', _json)
-    return render(request, 'administracao/wall_messages_list.html', {})
+    url = '{0}/wall_messages/{1}'.format(settings.BASE_URL,request.user.email)
+    return render(request, 'administracao/wall_messages_list.html', response_to_dict(url))
 
 
 def destinations_by_user_type(request, pk):
-    response = requests.get('{0}/destinations_by_user_type/{1}'.format(settings.BASE_URL, pk))
+    url = '{0}/destinations_by_user_type/{1}'.format(settings.BASE_URL, pk)
+    return JsonResponse(response_to_dict(url))
 
+
+def response_to_dict(url):
+    response = requests.get(url)
     if response.status_code == 200:
         _json = response.json()
-        return JsonResponse(dict(_json))
-    return JsonResponse({})
+        return dict(_json)
+    return {}
+
 
 def param_values_service(request):
     if request.method == 'POST':
-        response_user = requests.get('{0}/{1}/{2}'.format(settings.BASE_URL,'user_details', request.user.email))
-        if response_user.status_code == 200:
-            user = dict(response_user.json()).get('user')
+        url_user = '{0}/{1}/{2}'.format(settings.BASE_URL,'user_details', request.user.email)
+        user = response_to_dict(url_user).get('user')
 
         if user:
             destination_data_dict = request.POST.get('destination_data')
@@ -49,9 +49,8 @@ def param_values_service(request):
             if param_values_service == '<%users%>':
                 return JsonResponse({})
 
-            response = requests.get(url.replace('$', str(user.get('id'))))
-            if response.status_code == 200:
-                return JsonResponse(dict(response.json()))
+            result = response_to_dict(url.replace('$', str(user.get('id'))))
+            return JsonResponse(result)
         return JsonResponse({'result': "invalid user email"})
     return JsonResponse({})
 
