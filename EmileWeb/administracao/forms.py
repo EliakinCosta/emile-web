@@ -15,9 +15,21 @@ NUMBER_CHOICES = [
 ]
 
 
+class NoValidationChoiceField(forms.ChoiceField):
+
+    def validate(self, value):
+        pass
+
+
+class NoValidationMultipleChoiceField(forms.MultipleChoiceField):
+
+    def validate(self, values):
+        pass
+
+
 class MessageForm(forms.ModelForm):
-    user_type_destination = forms.ChoiceField(choices=[], label='Tipo de destino', required=True)
-    course_section = forms.MultipleChoiceField(widget=Select2MultipleWidget(attrs={'data-language': 'pt-BR','placeholder': 'Escolha um Operador'}), choices=[])
+    user_type_destination = NoValidationChoiceField(choices=[], label='Tipo de destino', required=True)
+    course_section = NoValidationMultipleChoiceField(widget=Select2MultipleWidget(attrs={'data-language': 'pt-BR','placeholder': 'Escolha um Operador'}), choices=[], required=False)
     message = forms.CharField(required=True, label='Mensagem', max_length=250, widget=forms.Textarea)
 
     class Meta:
