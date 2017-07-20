@@ -17,7 +17,7 @@ NUMBER_CHOICES = [
 
 class MessageForm(forms.ModelForm):
     user_type_destination = forms.ChoiceField(choices=[], label='Tipo de destino', required=True)
-    course_section = forms.MultipleChoiceField(widget=Select2MultipleWidget(attrs={'data-language': 'pt-BR','placeholder': 'Escolha um Operador'}), choices=NUMBER_CHOICES)
+    course_section = forms.MultipleChoiceField(widget=Select2MultipleWidget(attrs={'data-language': 'pt-BR','placeholder': 'Escolha um Operador'}), choices=[])
     message = forms.CharField(required=True, label='Mensagem', max_length=250, widget=forms.Textarea)
 
     class Meta:

@@ -38,6 +38,7 @@ def destinations_by_user_type(request, pk):
 
 def param_values_service(request):
     if request.method == 'POST':
+        user = None
         response_user = requests.get('{0}/{1}/{2}'.format(settings.BASE_URL,'user_details', request.user.email))
         if response_user.status_code == 200:
             user = dict(response_user.json()).get('user')
