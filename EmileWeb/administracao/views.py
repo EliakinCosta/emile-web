@@ -35,6 +35,7 @@ def destinations_by_user_type(request, pk):
         return JsonResponse(dict(_json))
     return JsonResponse({})
 
+
 def param_values_service(request):
     if request.method == 'POST':
         response_user = requests.get('{0}/{1}/{2}'.format(settings.BASE_URL,'user_details', request.user.email))
@@ -54,6 +55,7 @@ def param_values_service(request):
                 return JsonResponse(dict(response.json()))
         return JsonResponse({'result': "invalid user email"})
     return JsonResponse({})
+
 
 class WallMessageCreateView(View):
     template_name = 'administracao/wall_message_create.html'
