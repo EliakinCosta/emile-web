@@ -36,14 +36,22 @@ def destinations_by_user_type(request, pk):
 
 def param_values_service(request):
     if request.method == 'POST':
-        destination_data_dict = request.POST.get('destination_data')
-        teste = json.loads(destination_data_dict)
-        url = 'http://127.0.0.1:5000{0}'.format(teste.get('param_values_service'))        
-        response = requests.get(url.replace('$', '5'))
-        if response.status_code == 200:
-            _json = response.json()
-            return JsonResponse(dict(_json))
-        return JsonResponse({})
+        response_user = requests.get('http://127.0.0.1:5000/{0}/{1}'.format('user_details', request.user.email))
+        if response_user.status_code == 200:
+            user = dict(response_user.json()).get('user')
+
+        if user:
+            destination_data_dict = request.POST.get('destination_data')
+            param_values_service = json.loads(destination_data_dict)['param_values_service']
+            url = 'http://127.0.0.1:5000{0}'.format(param_values_service)
+
+            if param_values_service == '<%users%>':
+                return JsonResponse({})
+
+            response = requests.get(url.replace('$', str(user.get('id'))))
+            if response.status_code == 200:
+                return JsonResponse(dict(response.json()))
+        return JsonResponse({'result': "invalid user email"})
     return JsonResponse({})
 
 class WallMessageCreateView(View):
