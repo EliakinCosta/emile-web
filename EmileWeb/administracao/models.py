@@ -9,4 +9,8 @@ class UserProfile(models.Model):
 
 class MessageFile(models.Model):
     message_file = models.FileField(upload_to='wall_messages_files/')
+
+
+class Message(models.Model):
+    message_file = models.ForeignKey(MessageFile)
     message_id = models.IntegerField(unique=True, blank=True, null=True)
