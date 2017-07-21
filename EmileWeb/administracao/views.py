@@ -5,10 +5,10 @@ from administracao import forms
 from django.views import View
 from django.core.urlresolvers import reverse_lazy
 import json
-from  django.http import JsonResponse
+from django.http import JsonResponse
 from django.contrib import messages
 from django.shortcuts import redirect
-import json
+import os
 from django.conf import settings
 
 
@@ -68,10 +68,28 @@ class WallMessageCreateView(View):
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
-        print(form)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+
+            initial_path = obj.message_file.path
+            obj.message_file.name = '/{0}/test.pdf'.format(obj.pk)
+            new_path = settings.MEDIA_ROOT + obj.message_file.name
+
+            self.mkdir(new_path)
+            os.rename(initial_path, new_path)
+            obj.save()
+
+            url_file = '{0}media{1}'.format(request.build_absolute_uri('/'), str(obj.message_file))
+
             messages.add_message(request, messages.SUCCESS, "Mensagem enviada com sucesso!")
             return redirect('administracao:wall_messages_list')
 
         return render(request, self.template_name, { 'form' : form})
+
+    def mkdir(self, filename):
+        if not os.path.exists(os.path.dirname(filename)):
+            try:
+                os.makedirs(os.path.dirname(filename))
+            except OSError as exc: # Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
