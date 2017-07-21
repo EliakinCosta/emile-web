@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 import os
 from django.conf import settings
+from administracao import models
 
 
 @login_required
@@ -70,10 +71,10 @@ class WallMessageCreateView(View):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save()
-            print(form.cleaned_data)
 
             initial_path = obj.message_file.path
-            obj.message_file.name = '/{0}/test.pdf'.format(obj.pk)
+
+            obj.message_file.name = '/{0}/{1}.pdf'.format(obj.pk, request.user.username)
             new_path = settings.MEDIA_ROOT + obj.message_file.name
 
             self.mkdir(new_path)
@@ -91,12 +92,16 @@ class WallMessageCreateView(View):
                 url = '{0}/wall_push_notification'.format(settings.BASE_URL)
                 r = requests.post(url, data=json.dumps(data), headers=headers)
                 message = dict(r.json())
-                print(message)
+
+                self.create_message(obj.pk, message['wall_messages'][0]['id'])
 
             messages.add_message(request, messages.SUCCESS, "Mensagem enviada com sucesso!")
             return redirect('administracao:wall_messages_list')
 
         return render(request, self.template_name, { 'form' : form})
+
+    def create_message(self, file_id, message_id):
+        return models.Message.objects.create(message_file_id=file_id, message_id=message_id)
 
     def mkdir(self, filename):
         if not os.path.exists(os.path.dirname(filename)):
