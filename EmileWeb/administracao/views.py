@@ -85,7 +85,7 @@ class WallMessageCreateView(View):
             for courser_section in form.cleaned_data['course_section']:
                 data = {"post_message":dict(user_type_destination_id=form.cleaned_data['user_type_destination'],
                                             parameter=int(courser_section),
-                                            message=form.cleaned_data['message'],
+                                            message=str(form.cleaned_data['message']) + ' - ' + str(url_file),
                                             sender=5)}
                 headers = {'Content-type': 'application/json'}
                 url = '{0}/wall_push_notification'.format(settings.BASE_URL)
