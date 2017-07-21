@@ -70,6 +70,7 @@ class WallMessageCreateView(View):
         form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save()
+            print(form.cleaned_data)
 
             initial_path = obj.message_file.path
             obj.message_file.name = '/{0}/test.pdf'.format(obj.pk)
@@ -80,6 +81,17 @@ class WallMessageCreateView(View):
             obj.save()
 
             url_file = '{0}media{1}'.format(request.build_absolute_uri('/'), str(obj.message_file))
+
+            for courser_section in form.cleaned_data['course_section']:
+                data = {"post_message":dict(user_type_destination_id=form.cleaned_data['user_type_destination'],
+                                            parameter=int(courser_section),
+                                            message=form.cleaned_data['message'],
+                                            sender=5)}
+                headers = {'Content-type': 'application/json'}
+                url = '{0}/wall_push_notification'.format(settings.BASE_URL)
+                r = requests.post(url, data=json.dumps(data), headers=headers)
+                message = dict(r.json())
+                print(message)
 
             messages.add_message(request, messages.SUCCESS, "Mensagem enviada com sucesso!")
             return redirect('administracao:wall_messages_list')
