@@ -20,7 +20,7 @@ def home(request):
 
 @login_required
 def wall_messages_list(request):
-    url = '{0}/wall_messages/{1}'.format(settings.BASE_URL,request.user.email)
+    url = '{0}/wall_messages/{1}'.format(settings.BASE_URL, request.user.email)
     return render(request, 'administracao/wall_messages_list.html', response_to_dict(url))
 
 
