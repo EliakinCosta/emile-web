@@ -30,6 +30,9 @@
                     <div class="timeline-body">
                         <p>{{ result.message|safe }}</p>
                     </div>
+                    {% if result.has_file %}
+                    <a href="{% url 'administracao:wall_message_update' result.id %}">Editar</a>
+                    {% endif %}
                 </div>
             </li>
           {% endfor %}
