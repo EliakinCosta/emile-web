@@ -1,0 +1,12 @@
+{% extends 'administracao/base.html' %}
+{% load static %}
+{% load csstags %}
+{% block content %}
+
+<div class="col-lg-12">
+   <h1 class="page-header">Nova mensagem</h1>
+   <form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update" />
+</form>
+</div>
